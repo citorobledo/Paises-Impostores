@@ -12,10 +12,8 @@ class Pais (val nombre: String, val codigoIso3: String, var poblacion: Int,
   fun densidadPoblacional() = (poblacion / superficie!!).roundToInt()
   fun vecinoMasPoblado() = paisesLimitrofes!!.plus(this).maxByOrNull { it.poblacion } // corregido
   fun sonLimitrofes(pais: Pais) = paisesLimitrofes!!.any { it.nombre == pais.nombre }//paisesLimitrofes?.map { it.nombre } !!.contains(pais.nombre)
-  fun necesitanTraduccion(pais: Pais) = !pais.idiomasOficiales.any {auxiliarIdiomas(it)}
-  fun sonPotencialesAliados(pais: Pais) = !necesitanTraduccion(pais) && pais.bloquesRegionales!!.any{auxiliarAliados(it)}
+  fun necesitanTraduccion(pais: Pais) = !pais.idiomasOficiales.any {idiomasOficiales.contains(it)}
+  fun sonPotencialesAliados(pais: Pais) = !necesitanTraduccion(pais) && pais.bloquesRegionales!!.any{bloquesRegionales!!.contains(it)}
   fun convieneIrDeCompras(pais: Pais) = pais.cotizacionDolar!! > cotizacionDolar!!
   fun aCuantoEquivaleEn(pais: Pais, monto: Double) = round(((monto/cotizacionDolar!!) * pais.cotizacionDolar!!))
-  fun auxiliarIdiomas(idioma: String) = idiomasOficiales.contains(idioma)
-  fun auxiliarAliados(bloque: String) = bloquesRegionales!!.contains(bloque)
 }
