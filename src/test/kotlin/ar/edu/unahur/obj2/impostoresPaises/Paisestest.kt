@@ -9,26 +9,27 @@ import io.kotest.matchers.shouldBe
 
 class PaisesTest: DescribeSpec ({
   describe("Saber si") {
-    val chile = Paises(
+    val chile = Pais(
       "Chile", "CHL", 19120000,
       756950.0, "America", "CLP", 798.05,
       "Santiago de Chile", mutableListOf(), listOf("Alianza del Pacífico"), listOf("Español")
     )
-    val argentina = Paises(
+    val argentina = Pais(
       "Argentina", "ARG", 44000000,
       278000000.0, "America", "ARS", 100.0,
       "Buenos Aires", mutableListOf(chile), listOf("Mercosur"), listOf("Español")
     )
-    val paraguay = Paises(
+    val jamaica = Pais(
+    "Jamaica", "JAM", 2961000,
+    10991.0, "America", "JMD", 155.59,
+    "Kingston", mutableListOf(), listOf("CARICOM"), listOf("Ingles", "Jamaiquino")
+    )
+    val paraguay = Pais(
       "Paraguay", "PRY", 7133000,
       406752.0, "America", "PYG", 6866.72,
-      "Asuncion", mutableListOf(argentina), listOf("Mercosur"), listOf("Guarani", "Español")
+      "Asuncion", mutableListOf(argentina, jamaica), listOf("Mercosur"), listOf("Guarani", "Español")
     )
-    val jamaica = Paises(
-      "Jamaica", "JAM", 2961000,
-      10991.0, "America", "JMD", 155.59,
-      "Kingston", mutableListOf(), listOf("CARICOM"), listOf("Ingles", "Jamaiquino")
-    )
+
 
     describe("Paraguay es plurinacional") {
       paraguay.esPlurinacional().shouldBeTrue()
@@ -52,7 +53,7 @@ class PaisesTest: DescribeSpec ({
       paraguay.sonLimitrofes(argentina).shouldBeTrue()
     }
     describe("Paraguay no es limitrofe con Jamaica") {
-      paraguay.sonLimitrofes(jamaica).shouldBeFalse()
+      paraguay.sonLimitrofes(jamaica).shouldBeTrue()
     }
     describe("Paraguay no necesita traduccion con Argentina") {
       paraguay.necesitanTraduccion(argentina).shouldBeFalse()

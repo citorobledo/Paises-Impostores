@@ -9,7 +9,7 @@ import io.kotest.matchers.types.shouldBeInstanceOf
 class TransformarTest: DescribeSpec({
   describe("Transformar un pais"){
     it("recibe el nombre de un pais por parametro y devuelve ese pais transformado a la clase paises") {
-      Transforma().transformarAPais("argentina").shouldBeInstanceOf<Paises>()
+      Transforma().transformarAPais("argentina").shouldBeInstanceOf<Pais>()
     }
     it("el nombre del pais es Argentina") {
       Transforma().transformarAPais("argentina").nombre.shouldBe("Argentina")

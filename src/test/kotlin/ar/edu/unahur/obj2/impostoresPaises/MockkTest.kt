@@ -23,7 +23,7 @@ class MockTests : DescribeSpec({
 // Paises
     every { apiPaisesMock.buscarPaisesPorNombre("Argentina")} returns
             listOf(
-              Country("Argentina", "ARG", "Buenos Aires", "Americas", 45376763,
+              Country("Argentina", "ARG", "Buenos Aires", "Europa", 45376763,
                 2780400.0, listOf("BRA", "CHL", "PRY"), listOf(Language("Spanish"), Language("Guaraní")),
                 listOf(RegionalBloc(acronym="USAN", name="Union of South American Nations")),
                 listOf(Currency("ARS"))))
@@ -56,7 +56,7 @@ class MockTests : DescribeSpec({
     every { apiPaisesMock.buscarPaisesPorNombre("Francia")} returns
     listOf(
       Country("Francia", "FRA", "Paris", "Europa", 40567900, 8515.0, listOf("ARG", "BRA"),
-        listOf(Language("Frances")), listOf(RegionalBloc(acronym="Euro", name="Union Europea")), listOf(
+        listOf(Language("Frances"),Language("Ingles")), listOf(RegionalBloc(acronym="Euro", name="Union Europea")), listOf(
                             Currency("EUR"))))
 // Paises por codigo
     every { apiPaisesMock.paisConCodigo("ARG")} returns
@@ -119,7 +119,7 @@ class MockTests : DescribeSpec({
         observatorio.codigosISODe5PaisesMasPoblados().shouldBe(listOf("BRA", "ARG", "FRA", "CHL", "PRY"))
       }
       it("El continente con paises mas plurinacionales es el continente Americano") {
-        observatorio.continenteConMasPaisesPlurinacionales().shouldBe("Americas")
+        observatorio.continenteConMasPaisesPlurinacionales().shouldBe("Europa")
       }
       it("Saber si el promedio de avitantes en todas las islas es 2961161") {
         observatorio.promedioDePoblacionEnIslas().shouldBe(2961161)
