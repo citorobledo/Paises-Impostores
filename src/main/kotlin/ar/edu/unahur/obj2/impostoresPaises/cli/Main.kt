@@ -9,5 +9,5 @@ está hecho. El ejercicio se tiene que resolver sin alterar para nada este archi
 
 // Acá llamamos a nuestro programa, un objeto independiente que también podría ser utilizado desde un test
 fun main() {
-  Programa.iniciar()
+  Programa().iniciar()
 }

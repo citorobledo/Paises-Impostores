@@ -9,7 +9,7 @@ class ProgramaTest : DescribeSpec({
 
     // Configuramos un mock para la entrada salida
     // TODO: hacer lo mismo para la RestCountriesAPI
-    Programa.entradaSalida = consolaMock
+    Programa().entradaSalida = consolaMock
 
     // Indicamos que los llamados a `escribirLinea` no hacen nada (just Runs)
     every { consolaMock.escribirLinea(any()) } just Runs
@@ -21,7 +21,7 @@ class ProgramaTest : DescribeSpec({
       every { consolaMock.leerLinea() } returns "thailand"
 
       // Iniciamos el programa
-      Programa.iniciar()
+      Programa().iniciar()
 
       // Verificamos que se escribió "por pantalla" el resultado esperado
       verify {
