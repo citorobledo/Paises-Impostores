@@ -11,7 +11,7 @@ class Pais (val nombre: String, val codigoIso3: String, var poblacion: Int,
   fun esUnaIsla() = paisesLimitrofes!!.isEmpty()
   fun densidadPoblacional() = (poblacion / superficie!!).roundToInt()
   fun vecinoMasPoblado() = paisesLimitrofes!!.plus(this).maxByOrNull { it.poblacion } // corregido
-  fun sonLimitrofes(pais: Pais) = paisesLimitrofes?.map { it.nombre } !!.contains(pais.nombre)
+  fun sonLimitrofes(pais: Pais) = paisesLimitrofes!!.any { it.nombre == pais.nombre }//paisesLimitrofes?.map { it.nombre } !!.contains(pais.nombre)
   fun necesitanTraduccion(pais: Pais) = !pais.idiomasOficiales.any {auxiliarIdiomas(it)}
   fun sonPotencialesAliados(pais: Pais) = !necesitanTraduccion(pais) && pais.bloquesRegionales!!.any{auxiliarAliados(it)}
   fun convieneIrDeCompras(pais: Pais) = pais.cotizacionDolar!! > cotizacionDolar!!
