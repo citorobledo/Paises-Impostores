@@ -8,8 +8,7 @@ class Transforma (
   var apiDePaises: RestCountriesAPI = RestCountriesAPI(),
   var apiDeCambioDeMoneda: CurrencyConverterAPI = CurrencyConverterAPI("2b2380cb469d454be2f3")){//2b2380cb469d454be2f3 //655a758e7a8711b8cf19
 
-  fun transformarAPais( unPais:String):Pais = transformarAPaisConLimitrofes(buscarPais(unPais))
-  fun transformarAPaisConLimitrofes(paisAPI: Country): Pais = agregarLimitrofes(transformarPais(paisAPI))
+  fun transformarAPais( unPais:String):Pais = agregarLimitrofes(transformarPais(buscarPais(unPais)))
   fun transformarPais(paisAPI: Country):Pais {
     val codigoDeMoneda = if (paisAPI.currencies.isNullOrEmpty()) "USD"  else  paisAPI.currencies?.first()!!.code
     val cotizacionDolar = apiDeCambioDeMoneda.convertirDolarA(codigoDeMoneda)?: 1.0 // aca esta hard codeado por que se me termino el limite de pedidos a la API
