@@ -11,7 +11,7 @@ class ProgramaTest: DescribeSpec ({
     val consola = mockk<Consola>()
     val api = mockk<RestCountriesAPI>()
     val apiCurrency = mockk<CurrencyConverterAPI>()
-    val programa = Programa(apiPaises=api,entradaSalida= consola, apiCambio = apiCurrency)
+    val programa = Programa(apiPaises=api,entradaSalida= consola)
 
     every { consola.escribirLinea(any()) } just Runs // atrapamos el ecribir linea.
     // creamos paises

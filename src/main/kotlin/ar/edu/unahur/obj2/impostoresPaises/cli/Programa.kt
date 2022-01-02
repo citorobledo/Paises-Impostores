@@ -2,6 +2,7 @@ package ar.edu.unahur.obj2.impostoresPaises.cli
 import ar.edu.unahur.obj2.impostoresPaises.api.CurrencyConverterAPI
 import ar.edu.unahur.obj2.impostoresPaises.api.RestCountriesAPI
 import ar.edu.unahur.obj2.impostoresPaises.Observatorio
+import ar.edu.unahur.obj2.impostoresPaises.api.api
 
 // El código de nuestro programa, que (eventualmente) interactuará con una persona real
 //object Programa {
@@ -32,9 +33,8 @@ import ar.edu.unahur.obj2.impostoresPaises.Observatorio
 // El código de nuestro programa, que (eventualmente) interactuará con una persona real
 class Programa (
   var entradaSalida: Consola = Consola,
-  var apiPaises: RestCountriesAPI = RestCountriesAPI(),
-  var apiCambio: CurrencyConverterAPI = CurrencyConverterAPI("2b2380cb469d454be2f3"),
-  var observatorio: Observatorio = Observatorio(apiDePaises = apiPaises, apiDeCambioDeMoneda = apiCambio)
+  var apiPaises: RestCountriesAPI = api.paises(),
+  var observatorio: Observatorio = Observatorio(apiDePaises = apiPaises)
 ){
   // Ambas son variables para poder cambiarlas en los tests
 
