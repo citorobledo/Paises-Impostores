@@ -12,7 +12,10 @@ class MockTests : DescribeSpec({
   describe("Pruebas con mockk") {
     val apiPaisesMock = mockk<RestCountriesAPI>()
     val apiCurrenciMock = mockk<CurrencyConverterAPI>()
-    val observatorio = Observatorio(apiPaisesMock, apiCurrenciMock)
+    val observatorio = Observatorio()
+
+    api.cambio = apiCurrenciMock
+    api.paises = apiPaisesMock
 
     every { apiCurrenciMock.convertirDolarA("ARS")} returns 0.0099
     every { apiCurrenciMock.convertirDolarA("BRL")} returns 0.18
@@ -50,14 +53,14 @@ class MockTests : DescribeSpec({
     every { apiPaisesMock.buscarPaisesPorNombre("Brazil")} returns
             listOf(
               Country("Brazil", "BRA", "Brasília", "Americas", 212559409, 8515767.0, listOf("ARG", "PRY"),
-                listOf(Language("Portuguese")), listOf(RegionalBloc(acronym="USAN", name="Union of South American Nations")), listOf(
-                  Currency("BRL"))))
+                listOf(Language("Portuguese")), listOf(RegionalBloc(acronym="USAN", name="Union of South American Nations")),
+                listOf(Currency("BRL"))))
 
     every { apiPaisesMock.buscarPaisesPorNombre("Francia")} returns
     listOf(
       Country("Francia", "FRA", "Paris", "Europa", 40567900, 8515.0, listOf("ARG", "BRA"),
-        listOf(Language("Frances"),Language("Ingles")), listOf(RegionalBloc(acronym="Euro", name="Union Europea")), listOf(
-                            Currency("EUR"))))
+        listOf(Language("Frances"),Language("Ingles")), listOf(RegionalBloc(acronym="Euro", name="Union Europea")),
+        listOf(Currency("EUR"))))
 // Paises por codigo
     every { apiPaisesMock.paisConCodigo("ARG")} returns
             apiPaisesMock.buscarPaisesPorNombre("Argentina").first()
@@ -88,8 +91,15 @@ class MockTests : DescribeSpec({
             )
 
     describe("Saber si") {
+      it("LALA"){
+        observatorio.existe("Argentina").shouldBeTrue()
+
+      }
       it("Chile y Argentina son limitrofes") {
-        observatorio.sonLimitrofes("Chile", "Argentina").shouldBeTrue()
+        observatorio.sonLimitrofes("Chile", "Argentina").shouldBe(true)
+      }
+      it("Chile y Argentina son limitrofes 2") {
+        observatorio.sonLimitrofes("Chile", "Argentina").shouldBe(true)
       }
       it("Chile y Jamaica no son limitrofes") {
         observatorio.sonLimitrofes("Chile", "Jamaica").shouldBeFalse()

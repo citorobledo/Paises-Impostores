@@ -1,14 +1,13 @@
 package ar.edu.unahur.obj2.impostoresPaises
-
-import ar.edu.unahur.obj2.impostoresPaises.api.CurrencyConverterAPI
 import ar.edu.unahur.obj2.impostoresPaises.api.RestCountriesAPI
+import ar.edu.unahur.obj2.impostoresPaises.api.api
 
 // Etapa 2
 
-class Observatorio (var apiDePaises : RestCountriesAPI = RestCountriesAPI() , var apiDeCambioDeMoneda: CurrencyConverterAPI = CurrencyConverterAPI("2b2380cb469d454be2f3") ){
+class Observatorio (var apiDePaises : RestCountriesAPI = api.paises() ){
 
-  fun paises() = apiDePaises.todosLosPaises().map{Transforma(apiDePaises,apiDeCambioDeMoneda).transformarAPais(it.name)}
-  fun buscarPais(pais: String) = Transforma(apiDePaises,apiDeCambioDeMoneda).transformarAPais(pais)
+  fun paises() = apiDePaises.todosLosPaises().map{Transforma().transformarAPais(it.name)}
+  fun buscarPais(pais: String) = Transforma().transformarAPais(pais)
   fun sonLimitrofes(pais: String, pais2: String) = buscarPais(paisValido1(pais, pais2)).sonLimitrofes(buscarPais(paisValido2(pais, pais2)))
   fun necesitanTraduccion(pais: String, pais2: String) = buscarPais(paisValido1(pais, pais2)).necesitanTraduccion(buscarPais(paisValido2(pais, pais2)))
   fun sonPotencialesAliados(pais: String, pais2: String) = buscarPais(paisValido1(pais, pais2)).sonPotencialesAliados(buscarPais(paisValido2(pais, pais2)))
