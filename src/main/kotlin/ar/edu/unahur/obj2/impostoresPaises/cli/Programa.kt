@@ -1,8 +1,7 @@
 package ar.edu.unahur.obj2.impostoresPaises.cli
-import ar.edu.unahur.obj2.impostoresPaises.api.CurrencyConverterAPI
 import ar.edu.unahur.obj2.impostoresPaises.api.RestCountriesAPI
 import ar.edu.unahur.obj2.impostoresPaises.Observatorio
-import ar.edu.unahur.obj2.impostoresPaises.api.api
+import ar.edu.unahur.obj2.impostoresPaises.api.Apis
 
 // El código de nuestro programa, que (eventualmente) interactuará con una persona real
 //object Programa {
@@ -33,14 +32,14 @@ import ar.edu.unahur.obj2.impostoresPaises.api.api
 // El código de nuestro programa, que (eventualmente) interactuará con una persona real
 class Programa (
   var entradaSalida: Consola = Consola,
-  var apiPaises: RestCountriesAPI = api.paises(),
+  var apiPaises: RestCountriesAPI = Apis.paises(),
   var observatorio: Observatorio = Observatorio(apiDePaises = apiPaises)
 ){
   // Ambas son variables para poder cambiarlas en los tests
 
   fun iniciar() {
     var numeroOpcion: Int?
-    do {
+    fun opciones(){
       entradaSalida.escribirLinea("""
       Hola, escribí el número de la opción que deseas saber:
       1) Si son limítrofes.
@@ -52,10 +51,25 @@ class Programa (
       7) Cual es el continente con más paises plurinacionales
       8) Cual es el promedio de poblacion en islas
       """.trimIndent())
+    }
+    do {
+      //entradaSalida.escribirLinea("""
+      //Hola, escribí el número de la opción que deseas saber:
+      //1) Si son limítrofes.
+      //2) Si necesitan traductor para dialogar.
+      //3) Si son potenciales aliados.
+      //4) Si conviene ir de compras de un pasi a otro.
+      //5) Al Convertir moneda de un pais al otro.
+      //6) El codigos de los 5 paises más poblados.
+      //7) Cual es el continente con más paises plurinacionales
+      //8) Cual es el promedio de poblacion en islas
+      //""".trimIndent())
+      opciones()
       numeroOpcion = entradaSalida.leerLinea()?.toIntOrNull()
 
+
     }
-    while (numeroOpcion == null)
+    while ( numeroOpcion == null || numeroOpcion > 8 )
 
     when (numeroOpcion) {
       1 -> { chequearCondicion("son limítrofes.", observatorio::sonLimitrofes) }
@@ -66,7 +80,6 @@ class Programa (
       6 -> { paisesDeMayorDensidad() }
       7 -> { continenteMasPaisesPlurinacionales() }
       8 -> { promedioPoblacionIslas() }
-      else -> { numeroIncorrecto(numeroOpcion) }
     }
   }
 
@@ -92,7 +105,7 @@ class Programa (
   }
   fun promedioPoblacionIslas(){
     entradaSalida.escribirLinea(
-      "El promedio de poblacion en islas es de: ${observatorio.promedioDePoblacionEnIslas()} de personas"
+      "El promedio de poblacion en islas es de: ${observatorio.promedioDePoblacionEnIslas()} personas"
     )
   }
 
@@ -114,8 +127,12 @@ class Programa (
     while(pais2.isBlank())
     try {
       check(observatorio.existe(pais))
-    } catch (e: IllegalStateException) {
+    }
+    catch (e: IllegalStateException) {
       entradaSalida.escribirLinea("No existe un pais con el nombre $pais")
+    }
+    finally {
+
     }
     try {
       check(observatorio.existe(pais2))
@@ -138,8 +155,4 @@ class Programa (
       }
     }
   }
-}
-
-fun main() {
-  Programa().iniciar()
 }

@@ -1,10 +1,10 @@
 package ar.edu.unahur.obj2.impostoresPaises
 import ar.edu.unahur.obj2.impostoresPaises.api.RestCountriesAPI
-import ar.edu.unahur.obj2.impostoresPaises.api.api
+import ar.edu.unahur.obj2.impostoresPaises.api.Apis
 
 // Etapa 2
 
-class Observatorio (var apiDePaises : RestCountriesAPI = api.paises() ){
+class Observatorio (var apiDePaises : RestCountriesAPI = Apis.paises() ){
 
   fun paises() = apiDePaises.todosLosPaises().map{Transforma().transformarAPais(it.name)}
   fun buscarPais(pais: String) = Transforma().transformarAPais(pais)

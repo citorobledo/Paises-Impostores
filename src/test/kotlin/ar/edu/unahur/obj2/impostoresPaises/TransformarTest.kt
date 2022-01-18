@@ -1,7 +1,7 @@
 package ar.edu.unahur.obj2.impostoresPaises
 
 import ar.edu.unahur.obj2.impostoresPaises.api.CurrencyConverterAPI
-import ar.edu.unahur.obj2.impostoresPaises.api.api
+import ar.edu.unahur.obj2.impostoresPaises.api.Apis
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -13,7 +13,7 @@ import io.mockk.mockk
 class TransformarTest: DescribeSpec({
   val apiCurrenciMock = mockk<CurrencyConverterAPI>()
 
-  api.cambio = apiCurrenciMock
+  Apis.cambio = apiCurrenciMock
 
   every { apiCurrenciMock.convertirDolarA(any())} returns 1.1
   describe("Transformar un pais"){

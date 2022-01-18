@@ -14,8 +14,8 @@ class MockTests : DescribeSpec({
     val apiCurrenciMock = mockk<CurrencyConverterAPI>()
     val observatorio = Observatorio()
 
-    api.cambio = apiCurrenciMock
-    api.paises = apiPaisesMock
+    Apis.cambio = apiCurrenciMock
+    Apis.paises = apiPaisesMock
 
     every { apiCurrenciMock.convertirDolarA("ARS")} returns 0.0099
     every { apiCurrenciMock.convertirDolarA("BRL")} returns 0.18
