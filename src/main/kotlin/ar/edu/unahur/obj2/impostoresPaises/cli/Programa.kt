@@ -4,45 +4,17 @@ import ar.edu.unahur.obj2.impostoresPaises.Observatorio
 import ar.edu.unahur.obj2.impostoresPaises.api.Apis
 import kotlin.system.exitProcess
 
-// El código de nuestro programa, que (eventualmente) interactuará con una persona real
-//object Programa {
-//  // Ambas son variables para poder cambiarlas en los tests
-//  var entradaSalida = Consola
-//  var api = RestCountriesAPI()
-//
-//  fun iniciar() {
-//    entradaSalida.escribirLinea(AsciiArt.mundo)
-//    entradaSalida.escribirLinea("Hola, poné el nombre de un país y te mostramos algo de data")
-//    val pais = entradaSalida.leerLinea()
-//
-//    checkNotNull(pais) { "Sin nombre no puedo hacer nada :(" }
-//
-//    val paisesEncontrados = api.buscarPaisesPorNombre(pais)
-//
-//    check(paisesEncontrados.isNotEmpty())
-//      { "No encontramos nada, fijate si lo escribiste bien" }
-//
-//    paisesEncontrados.forEach {
-//      entradaSalida.escribirLinea(
-//        "${it.name} (${it.alpha3Code}) es un país de ${it.region}, con una población de ${it.population} habitantes."
-//      )
-//    }
-//  }
-//}
-//
-// El código de nuestro programa, que (eventualmente) interactuará con una persona real
 class Programa (
   var entradaSalida: Consola = Consola,
   var apiPaises: RestCountriesAPI = Apis.paises(),
   var observatorio: Observatorio = Observatorio(apiDePaises = apiPaises),
-  var numeroOpcion : String = "0"
+  var numeroOpcion : String
 ){
-  // Ambas son variables para poder cambiarlas en los tests
-
   fun iniciar() {
-    while (numeroOpcion.toInt() != 9) {
-      procesoPedidoRespuesta()
+    do {
+      procesoPedidoYRespuesta()
     }
+    while (numeroOpcion.toInt() != 9)
   }
   fun escribeOpciones(){
     entradaSalida.escribirLinea("""
@@ -58,16 +30,24 @@ class Programa (
       9) Salir
       """.trimIndent())
   }
-  fun numeroIncorrecto(numero: String) {
-      if (numero.equals(Char) || numero.toInt() > 9) entradaSalida.escribirLinea("El número no es válido.\n")
+  fun numeroCorrecto(dato: String):String {
+    var salida : String = dato
+    try {
+      if (dato.toInt() > 9 || dato.toInt() == 0)
+        entradaSalida.escribirLinea("El número no es válido.\n") //dato.toIntOrNull()!! > 9}
+      }catch (e:Exception){
+      entradaSalida.escribirLinea("no es un numero.\n")
+      salida = "0"
     }
-  fun procesoPedidoRespuesta(){
+    return salida
+  }
+  fun procesoPedidoYRespuesta(){
     do {
       escribeOpciones()
       numeroOpcion = entradaSalida.leerLinea().toString()
-      numeroIncorrecto(numeroOpcion)
+      numeroOpcion = numeroCorrecto(numeroOpcion)
     }
-    while (numeroOpcion == "" || numeroOpcion.toInt() > 9)
+    while ( numeroOpcion.toInt() > 9 )
 
     when (numeroOpcion.toInt()) {
       1 -> { chequearCondicion("son limítrofes.\n", observatorio::sonLimitrofes) }
@@ -83,7 +63,7 @@ class Programa (
 
   }
   fun convertirMoneda() {
-    val (pais, pais2) = pedirPaises()
+    val (pais, pais2) = arrayOf(validarPais(1),validarPais(2))
     entradaSalida.escribirLinea("Por favor, escribí el monto")
     val monto = entradaSalida.leerLinea()
 
@@ -104,41 +84,21 @@ class Programa (
       "El promedio de poblacion en islas es de: ${observatorio.promedioDePoblacionEnIslas()} personas \n"
     )
   }
-  fun pedirPaises(): Array<String> {
-    var pais: String
+
+  fun validarPais(numeroPais:Int):String{
+    var pais : String
     do {
-      entradaSalida.escribirLinea("Por favor, escribí el nombre del primer pais")
+      entradaSalida.escribirLinea("Por favor, escribí el nombre del pais $numeroPais")
       pais = entradaSalida.leerLinea().toString()
-      if(pais.isBlank()) entradaSalida.escribirLinea("Por favor, escribí el nombre del primer pais")
+      if(pais.isBlank() || !observatorio.existe(pais)) entradaSalida.escribirLinea("El pais $pais no existe")
     }
-    while(pais.isBlank())
-
-    var pais2: String
-    do {
-      entradaSalida.escribirLinea("Por favor, escribí el nombre del segundo pais")
-      pais2 = entradaSalida.leerLinea().toString()
-      if(pais2.isBlank()) entradaSalida.escribirLinea("Por favor, escribí el nombre del segundo pais")
-    }
-    while(pais2.isBlank())
-    try {
-      check(observatorio.existe(pais))
-    }
-    catch (e: IllegalStateException) {
-      entradaSalida.escribirLinea("No existe un pais con el nombre $pais")
-    }
-    finally {
-
-    }
-    try {
-      check(observatorio.existe(pais2))
-    } catch (e: IllegalStateException) {
-      entradaSalida.escribirLinea("No existe un pais con el nombre $pais2")
-    }
-    return arrayOf(pais,pais2)
+    while(pais.isBlank() || !observatorio.existe(pais))
+    return pais
   }
+
   fun ambosExisten(pais1: String, pais2: String) = observatorio.existe(pais1) && observatorio.existe(pais2)
   fun chequearCondicion(mensaje: String, condicion: (pais1: String, pais2: String) -> Boolean) {
-    val (pais, pais2) = pedirPaises()
+    val (pais, pais2) = arrayOf(validarPais(1),validarPais(2))
 
     if (ambosExisten(pais, pais2)) {
       if (condicion(pais, pais2)) {
