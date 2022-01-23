@@ -8,7 +8,7 @@ class Programa (
   var entradaSalida: Consola = Consola,
   var apiPaises: RestCountriesAPI = Apis.paises(),
   var observatorio: Observatorio = Observatorio(apiDePaises = apiPaises),
-  var numeroOpcion : String
+  var numeroOpcion : String = "0"
 ){
   fun iniciar() {
     do {
