@@ -29,7 +29,7 @@ class ProgramaTest: DescribeSpec ({
               listOf("ARG"),
               listOf(Language("Portuguese")), listOf(RegionalBloc("USAN", "Union of South American Nations")),
               listOf(Currency("BRL")))
-    every { api.buscarPaisesPorNombre("Brazil") } returns listOf(
+    every { api.buscarPaisesPorNombre("Brazil" ) } returns listOf(
       api.paisConCodigo("BRA")
     )
 
@@ -52,84 +52,84 @@ class ProgramaTest: DescribeSpec ({
     every { apiCurrency.convertirDolarA("BRL") } returns 5.0
     every { apiCurrency.convertirDolarA("CUC") } returns 300.0
 
-    it("Busca pero no encuentra el pais"){
-      every { consola.leerLinea() } returns "1" andThen "arute"
-      every { api.buscarPaisesPorNombre("arute") } returns listOf()
-      programa.iniciar()
+    it("No existe el pais"){
+      every { consola.leerLinea() } returns  "1" andThen "paparapa"
+      every { api.buscarPaisesPorNombre("paparapa") } returns listOf()
+      programa.procesoPedidoRespuesta()
       verify {
-        consola.escribirLinea("No existe un pais con el nombre arute")
+        consola.escribirLinea("No existe un pais con el nombre paparapa")
       }
     }
     it("opcion 1: Son limitrofes"){
       every { consola.leerLinea() } returnsMany listOf("1", "Argentina",  "Brazil")
-      programa.iniciar()
+      programa.procesoPedidoRespuesta()
       verify {
         consola.escribirLinea("Por favor, escribí el nombre del primer pais")
         consola.escribirLinea("Por favor, escribí el nombre del segundo pais")
-        consola.escribirLinea("son limítrofes.")
+        consola.escribirLinea("son limítrofes.\n")
       }
     }
     it("opcion 2: nesecitan traduccion."){
       every { consola.leerLinea() } returnsMany listOf("2", "Argentina",  "Brazil")
-      programa.iniciar()
+      programa.procesoPedidoRespuesta()
       verify {
         consola.escribirLinea("Por favor, escribí el nombre del primer pais")
         consola.escribirLinea("Por favor, escribí el nombre del segundo pais")
-        consola.escribirLinea("nesecitan traduccion.")
+        consola.escribirLinea("nesecitan traduccion.\n")
       }
     }
     it("Opcion 2: pero se ingreso mal un pais"){
       every { consola.leerLinea() } returns "2" andThen "argola" andThen "Argentina"
       every { api.buscarPaisesPorNombre("argola") } returns  listOf()
-      programa.iniciar()
+      programa.procesoPedidoRespuesta()
       verify {
         consola.escribirLinea("No existe un pais con el nombre argola")
       }
     }
     it("opcion 3: son potenciales aliados."){
       every { consola.leerLinea() } returnsMany listOf("3", "Argentina",  "Brazil")
-      programa.iniciar()
+      programa.procesoPedidoRespuesta()
       verify {
         consola.escribirLinea("Por favor, escribí el nombre del primer pais")
         consola.escribirLinea("Por favor, escribí el nombre del segundo pais")
-        consola.escribirLinea("No son potenciales aliados.")
+        consola.escribirLinea("No son potenciales aliados.\n")
       }
     }
     it("opcion 4: conviene ir de compras."){
       every { consola.leerLinea() } returnsMany listOf("4", "Argentina",  "Brazil")
-      programa.iniciar()
+      programa.procesoPedidoRespuesta()
       verify {
         consola.escribirLinea("Por favor, escribí el nombre del primer pais")
         consola.escribirLinea("Por favor, escribí el nombre del segundo pais")
-        consola.escribirLinea("No conviene ir de compras.")
+        consola.escribirLinea("No conviene ir de compras.\n")
       }
     }
     it("opcion 5: convertirMoneda de un pais a otro"){
       every { consola.leerLinea() } returnsMany listOf("5", "Argentina", "Brazil", "1000" )
-      programa.iniciar()
+      programa.procesoPedidoRespuesta()
       verify {
-        consola.escribirLinea("ese monto en la moneda de Brazil es: 29.0")
+        consola.escribirLinea("ese monto en la moneda de Brazil es: 1000.0")
       }
     }
     it("opcion 6: paises De Mayor Densidad"){
       every { consola.leerLinea() } returns "6"
-      programa.iniciar()
+      programa.procesoPedidoRespuesta()
       verify {
-        consola.escribirLinea("Los códigos ISO de los cinco paises más poblados son: [BRA, ARG, CUB]")
+        consola.escribirLinea("Los códigos ISO de los cinco paises más poblados son: [BRA, ARG, CUB] \n")
       }
     }
     it("opcion 7: Continente Con Mas Paises Plurinacionales"){
       every { consola.leerLinea() } returns "7"
-      programa.iniciar()
+      programa.procesoPedidoRespuesta()
       verify {
-        consola.escribirLinea("El continente con más paises plurinacionales es: Americas")
+        consola.escribirLinea( "El continente con más paises plurinacionales es: Americas " + "\n")
       }
     }
     it("opcion 8: promedio Poblacion en Islas"){
       every { consola.leerLinea() } returns "8"
-      programa.iniciar()
+      programa.procesoPedidoRespuesta()
       verify {
-        consola.escribirLinea("El promedio de poblacion en islas es de: 11326616 de personas")
+        consola.escribirLinea("El promedio de poblacion en islas es de: 11326616 personas \n")
       }
     }
   }
