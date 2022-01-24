@@ -34,7 +34,7 @@ class Programa (
     var salida : String = dato
     try {
       if (dato.toInt() > 9 || dato.toInt() == 0)
-        entradaSalida.escribirLinea("El número no es válido.\n") //dato.toIntOrNull()!! > 9}
+        entradaSalida.escribirLinea("El número no es válido.\n")
       }catch (e:Exception){
       entradaSalida.escribirLinea("no es un numero.\n")
       salida = "0"
@@ -48,7 +48,6 @@ class Programa (
       numeroOpcion = numeroCorrecto(numeroOpcion)
     }
     while ( numeroOpcion.toInt() > 9 )
-
     when (numeroOpcion.toInt()) {
       1 -> { chequearCondicion("son limítrofes.\n", observatorio::sonLimitrofes) }
       2 -> { chequearCondicion("nesecitan traduccion.\n", observatorio::necesitanTraduccion) }
@@ -60,18 +59,16 @@ class Programa (
       8 -> { promedioPoblacionIslas() }
       9 -> { exitProcess(0) }
     }
-
   }
   fun convertirMoneda() {
     val (pais, pais2) = arrayOf(validarPais(1),validarPais(2))
     entradaSalida.escribirLinea("Por favor, escribí el monto")
     val monto = entradaSalida.leerLinea()
-
     entradaSalida.escribirLinea("ese monto en la moneda de $pais2 es: " + observatorio.aCuantoEquivaleEn(pais, monto!!.toDouble(), pais2).toString())
   }
   fun paisesDeMayorDensidad() {
     entradaSalida.escribirLinea(
-      "Los códigos ISO de los cinco paises más poblados son: ${observatorio.codigosISODe5PaisesMasPoblados()/*los5PaisesConMayorDensidad()*/} \n"
+      "Los códigos ISO de los cinco paises más poblados son: ${observatorio.codigosISODe5PaisesMasPoblados()} \n"
     )
   }
   fun continenteMasPaisesPlurinacionales() {
@@ -84,7 +81,6 @@ class Programa (
       "El promedio de poblacion en islas es de: ${observatorio.promedioDePoblacionEnIslas()} personas \n"
     )
   }
-
   fun validarPais(numeroPais:Int):String{
     var pais : String
     do {
@@ -95,11 +91,9 @@ class Programa (
     while(pais.isBlank() || !observatorio.existe(pais))
     return pais
   }
-
   fun ambosExisten(pais1: String, pais2: String) = observatorio.existe(pais1) && observatorio.existe(pais2)
   fun chequearCondicion(mensaje: String, condicion: (pais1: String, pais2: String) -> Boolean) {
     val (pais, pais2) = arrayOf(validarPais(1),validarPais(2))
-
     if (ambosExisten(pais, pais2)) {
       if (condicion(pais, pais2)) {
         entradaSalida.escribirLinea(mensaje)
