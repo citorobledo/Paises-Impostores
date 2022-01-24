@@ -8,7 +8,7 @@ import io.kotest.matchers.booleans.shouldBeFalse
 import io.mockk.*
 
 class ProgramaTest: DescribeSpec ({
-  describe("Consola"){
+  describe("En ejecucion del programa"){
     val consola = mockk<Consola>()
     val api = mockk<RestCountriesAPI>()
     val apiCurrency = mockk<CurrencyConverterAPI>()

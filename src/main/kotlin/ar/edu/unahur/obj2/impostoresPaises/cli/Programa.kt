@@ -11,10 +11,8 @@ class Programa (
   var numeroOpcion : String = "0"
 ){
   fun iniciar() {
-    do {
-      procesoPedidoYRespuesta()
-    }
     while (numeroOpcion.toInt() != 9)
+      procesoPedidoYRespuesta()
   }
   fun escribeOpciones(){
     entradaSalida.escribirLinea("""
